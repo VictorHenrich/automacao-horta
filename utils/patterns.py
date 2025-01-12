@@ -4,4 +4,6 @@ class BaseService:
             raise Exception("Não é possível realizar instancia de uma classe Base")
 
     def execute(self):
-        raise NotImplementedError(f"Método 'execute' não foi implementado na classe '{self.__class__.__name__}'")
+        raise NotImplementedError(
+            f"Método 'execute' não foi implementado na classe '{self.__class__.__name__}'"
+        )

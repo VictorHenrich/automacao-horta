@@ -1,0 +1,34 @@
+import _thread as thread
+from utils.patterns import BaseService
+from utils import config
+from services.infrared_sensor import InfraredSensorService
+from services.water_sensor import WaterSensorService
+from services.soil_sensor import SoilSensorService
+from services.humidity_and_temperature_sensor import HumidityAndTemperatureSensorService
+
+
+class GeneralGardenService(BaseService):
+    def __init__(self):
+        self.__infrared_sensor_service = InfraredSensorService(
+            config.INFRARED_SENSOR_PORT
+        )
+
+        self.__water_sensor_service = WaterSensorService(config.INFRARED_SENSOR_PORT)
+
+        self.__soil_sensor_service = SoilSensorService(
+            config.SOIL_SENSOR_PORT, config.WATER_PUMP_PORT
+        )
+
+        self.__hum_and_temp_service = HumidityAndTemperatureSensorService(
+            config.HUM_AND_TEMP_SENSOR_PORT
+        )
+
+    def execute(self):
+        services = [
+            self.__infrared_sensor_service,
+            self.__water_sensor_service,
+            self.__soil_sensor_service,
+            self.__hum_and_temp_service,
+        ]
+
+        [thread.start_new_thread(service.execute, ()) for service in services]

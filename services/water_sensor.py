@@ -1,6 +1,7 @@
 from machine import Pin, ADC
 from utils.patterns import BaseService
-
+from utils.mqtt import MQTTIntegration
+from utils import config
 
 
 class WaterSensorService(BaseService):
@@ -9,13 +10,11 @@ class WaterSensorService(BaseService):
 
         self.__sensor = ADC(self.__pin)
 
-    @property
-    def pin(self):
-        return self.__pin
-    
-    @property
-    def sensor(self):
-        return self.__sensor
+        self.__mqtt_client = MQTTIntegration()
 
     def execute(self):
-        pass
+        sensor_value = self.__sensor.read()
+
+        data = {"sensor_value": sensor_value}
+
+        self.__mqtt_client.publish(config.TOPIC_SENDING_WATER_SENSOR_DATA, data)
