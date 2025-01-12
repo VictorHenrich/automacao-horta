@@ -1,10 +1,12 @@
 import _thread as thread
-from utils.patterns import BaseService
-from utils import config
 from services.infrared_sensor import InfraredSensorService
 from services.water_sensor import WaterSensorService
 from services.soil_sensor import SoilSensorService
 from services.humidity_and_temperature_sensor import HumidityAndTemperatureSensorService
+from utils.patterns import BaseService
+from utils import config
+from utils.exceptions import ServiceError
+from utils.net import Network
 
 
 class GeneralGardenService(BaseService):
@@ -23,7 +25,16 @@ class GeneralGardenService(BaseService):
             config.HUM_AND_TEMP_SENSOR_PORT
         )
 
+    def __connect_to_wifi(self):
+        try:
+            Network.connect_to_wifi(config.WIFI_NAME, config.WIFI_PASSWORD)
+
+        except Exception as error:
+            raise ServiceError(self, "Falha ao se conectar ao wifi!", error)
+
     def execute(self):
+        self.__connect_to_wifi()
+
         services = [
             self.__infrared_sensor_service,
             self.__water_sensor_service,
