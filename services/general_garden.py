@@ -32,6 +32,10 @@ class GeneralGardenService(BaseService):
         except Exception as error:
             raise ServiceError(self, "Falha ao se conectar ao wifi!", error)
 
+    def __perform_service(self, service):
+        while True:
+            service.execute()
+
     def execute(self):
         self.__connect_to_wifi()
 
@@ -42,4 +46,10 @@ class GeneralGardenService(BaseService):
             self.__hum_and_temp_service,
         ]
 
-        [thread.start_new_thread(service.execute, ()) for service in services]
+        [
+            thread.start_new_thread(self.__perform_service, (service,))
+            for service in services
+        ]
+
+        while True:
+            continue
