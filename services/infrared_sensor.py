@@ -32,4 +32,8 @@ class InfraredSensorService(BaseService):
     def execute(self):
         sensor_value = self.__capture_sensor_value()
 
-        self.__send_message_to_mqtt(sensor_value)
+        try:
+            self.__send_message_to_mqtt(sensor_value)
+
+        except ServiceError as error:
+            print(str(error))

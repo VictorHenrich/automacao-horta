@@ -43,4 +43,8 @@ class HumidityAndTemperatureSensorService(BaseService):
     def execute(self):
         humidity, temperature = self.__get_humidity_and_temperature()
 
-        self.__send_message_to_mqtt(humidity, temperature)
+        try:
+            self.__send_message_to_mqtt(humidity, temperature)
+
+        except ServiceError as error:
+            print(str(error))

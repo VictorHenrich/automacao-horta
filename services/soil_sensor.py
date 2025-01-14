@@ -53,4 +53,8 @@ class SoilSensorService(BaseService):
 
         water_pump_activated = self.__activate_water_pump(sensor_value)
 
-        self.__send_message_to_mqtt(sensor_value, water_pump_activated)
+        try:
+            self.__send_message_to_mqtt(sensor_value, water_pump_activated)
+
+        except ServiceError as error:
+            print(str(error))
