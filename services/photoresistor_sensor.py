@@ -32,6 +32,8 @@ class PhotoresistorSensorService(BaseService):
     def execute(self):
         sensor_value = self.__capture_sensor_value()
 
+        print(f"Valor sensor Photoresistor: {sensor_value}")
+
         try:
             self.__send_message_to_mqtt(sensor_value)
 
