@@ -6,7 +6,11 @@ from utils.mqtt import MQTTIntegration
 
 
 class SoilSensorService(BaseService):
-    def __init__(self, soil_sensor_port, water_pump_port):
+    def __init__(
+        self,
+        soil_sensor_port=config.SOIL_SENSOR_PORT,
+        water_pump_port=config.WATER_PUMP_PORT,
+    ):
         self.__soil_pin = Pin(soil_sensor_port, Pin.IN)
 
         self.__soil_sensor = ADC(self.__soil_pin)

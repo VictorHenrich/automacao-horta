@@ -6,7 +6,7 @@ from utils import config
 
 
 class InfraredSensorService(BaseService):
-    def __init__(self, port):
+    def __init__(self, port=config.INFRARED_SENSOR_PORT):
         self.__pin = Pin(port, Pin.IN)
 
         self.__sensor = ADC(self.__pin)

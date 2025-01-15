@@ -7,7 +7,7 @@ from utils import config
 
 
 class HumidityAndTemperatureSensorService(BaseService):
-    def __init__(self, port, sensor_class=DHT22):
+    def __init__(self, port=config.HUM_AND_TEMP_SENSOR_PORT, sensor_class=DHT22):
         self.__pin = Pin(port, Pin.IN)
 
         self.__sensor = sensor_class(self.__pin)
