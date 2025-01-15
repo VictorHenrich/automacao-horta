@@ -9,13 +9,6 @@ class ServiceManager(BaseService):
     def __init__(self, *services):
         self.__services = list(services)
 
-    def __connect_to_wifi(self):
-        try:
-            Network.connect_to_wifi(config.WIFI_NAME, config.WIFI_PASSWORD)
-
-        except Exception as error:
-            raise ServiceError(self, "Falha ao se conectar ao wifi!", error)
-
     def __perform_service(self, service):
         while True:
             service.execute()
@@ -24,7 +17,7 @@ class ServiceManager(BaseService):
         self.__services.append(service)
 
     def execute(self):
-        self.__connect_to_wifi()
+        Network.connect_to_wifi(config.WIFI_NAME, config.WIFI_PASSWORD)
 
         for service in self.__services:
             thread.start_new_thread(self.__perform_service, (service,))

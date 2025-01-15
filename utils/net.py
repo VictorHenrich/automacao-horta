@@ -32,6 +32,8 @@ class Network:
             if wlan.isconnected():
                 cls.__WLAN_INSTANCE = wlan
 
+                print("Wifi conectado com sucesso!")
+
             else:
                 wlan.active(False)
 
