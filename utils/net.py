@@ -14,7 +14,7 @@ class Network:
             return cls.__WLAN_INSTANCE.isconnected()
 
     @classmethod
-    def connect_to_wifi(cls, network_name, network_password, wait=1, is_new=False):
+    def connect_to_wifi(cls, network_name, network_password, wait=5, is_new=False):
         if cls.__WLAN_INSTANCE is None or is_new is False:
             wlan = network.WLAN(network.STA_IF)
 
@@ -29,7 +29,7 @@ class Network:
 
                     time.sleep(1)
 
-            if not wlan.isconnected():
+            if wlan.isconnected():
                 cls.__WLAN_INSTANCE = wlan
 
             else:
