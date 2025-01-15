@@ -1,5 +1,5 @@
 from machine import Pin
-from dht import DHT22
+from dht import DHT11
 from utils.patterns import BaseService
 from utils.mqtt import MQTTIntegration
 from utils.exceptions import ServiceError
@@ -7,7 +7,7 @@ from utils import config
 
 
 class HumidityAndTemperatureSensorService(BaseService):
-    def __init__(self, port=config.HUM_AND_TEMP_SENSOR_PORT, sensor_class=DHT22):
+    def __init__(self, port=config.HUM_AND_TEMP_SENSOR_PORT, sensor_class=DHT11):
         self.__pin = Pin(port, Pin.IN)
 
         self.__sensor = sensor_class(self.__pin)
@@ -42,6 +42,8 @@ class HumidityAndTemperatureSensorService(BaseService):
 
     def execute(self):
         humidity, temperature = self.__get_humidity_and_temperature()
+
+        print(f"Humidade: {humidity}%\nTemperatura: {temperature}C°")
 
         try:
             self.__send_message_to_mqtt(humidity, temperature)
