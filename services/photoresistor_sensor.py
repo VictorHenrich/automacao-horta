@@ -6,7 +6,7 @@ from utils import config
 
 
 class PhotoresistorSensorService(BaseService):
-    def __init__(self, port=config.PHOTO_SENSOR_PORT):
+    def __init__(self, port=config.PHOTORESISTOR_SENSOR_PORT):
         self.__pin = Pin(port, Pin.IN)
 
         self.__sensor = ADC(self.__pin)
