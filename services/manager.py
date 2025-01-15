@@ -1,7 +1,6 @@
 import _thread as thread
 from utils.patterns import BaseService
 from utils import config
-from utils.exceptions import ServiceError
 from utils.net import Network
 
 
