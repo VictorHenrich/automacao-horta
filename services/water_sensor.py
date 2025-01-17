@@ -15,7 +15,7 @@ class WaterSensorService(BaseService):
 
     def __capture_sensor_value(self):
         try:
-            return self.__sensor.read()
+            return self.__sensor.read() // 16
 
         except Exception as error:
             raise ServiceError(self, "Falha ao realizar leitura do sensor!", error)

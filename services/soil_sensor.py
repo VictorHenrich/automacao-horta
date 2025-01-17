@@ -21,7 +21,7 @@ class SoilSensorService(BaseService):
 
     def __capture_sensor_value(self):
         try:
-            return self.__soil_sensor.read()
+            return self.__soil_sensor.read() // 16
 
         except Exception as error:
             raise ServiceError(self, "Falha ao realizar leitura do sensor!", error)
@@ -54,6 +54,8 @@ class SoilSensorService(BaseService):
 
     def execute(self):
         sensor_value = self.__capture_sensor_value()
+
+        print(f"Valor do sensor de solo: {sensor_value}")
 
         water_pump_activated = self.__activate_water_pump(sensor_value)
 
