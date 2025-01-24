@@ -12,6 +12,8 @@ gerden_service_manager = ServiceManager(
     SoilSensorService(),
     HumidityAndTemperatureSensorService(),
     PhotoresistorSensorService(),
+    send_to_mqtt=True,
+    execution_time=1,
 )
 
 

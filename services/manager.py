@@ -1,4 +1,5 @@
 import _thread as thread
+import time
 from utils.patterns import BaseService
 from utils.exceptions import ServiceError
 from utils.mqtt import MQTTIntegration
@@ -7,12 +8,12 @@ from utils.net import Network
 
 
 class ServiceManager(BaseService):
-    def __init__(self, *services, send_to_mqtt=True):
+    def __init__(self, *services, send_to_mqtt=True, execution_time=None):
         self.__services = list(services)
 
         self.__mqtt_client = MQTTIntegration()
 
-        self.__params = {"send_to_mqtt": send_to_mqtt}
+        self.__params = {"send_to_mqtt": send_to_mqtt, "execution_time": execution_time}
 
     def __perform_service(self, service):
         while True:
@@ -23,6 +24,9 @@ class ServiceManager(BaseService):
 
             if self.__params["send_to_mqtt"] is True:
                 self.__send_message_to_mqtt(response.topic, response.data)
+
+            if isinstance(self.__params["execution_time"], (float, int)):
+                time.sleep(self.__params["execution_time"])
 
     def __send_message_to_mqtt(self, topic, data):
         try:
