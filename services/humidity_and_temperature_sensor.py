@@ -1,7 +1,6 @@
 from machine import Pin
 from dht import DHT11
-from utils.patterns import BaseService
-from utils.mqtt import MQTTIntegration
+from utils.patterns import BaseService, ServiceResponse
 from utils.exceptions import ServiceError
 from utils import config
 
@@ -11,8 +10,6 @@ class HumidityAndTemperatureSensorService(BaseService):
         self.__pin = Pin(port, Pin.IN)
 
         self.__sensor = sensor_class(self.__pin)
-
-        self.__mqtt_client = MQTTIntegration()
 
     def __get_humidity_and_temperature(self):
         try:
@@ -29,24 +26,12 @@ class HumidityAndTemperatureSensorService(BaseService):
                 self, "Falha ao realizar captura de umidade e temperatura!", error
             )
 
-    def __send_message_to_mqtt(self, humidity, temperature):
-        try:
-            data = {"humidity": humidity, "temperature": temperature}
-
-            self.__mqtt_client.publish(
-                config.TOPIC_SENDING_HUM_AND_TEMP_SENSOR_DATA, data
-            )
-
-        except Exception as error:
-            raise ServiceError(self, "Falha ao enviar mensagem ao cliente MQTT!", error)
-
     def execute(self):
         humidity, temperature = self.__get_humidity_and_temperature()
 
         print(f"Humidade: {humidity}%\nTemperatura: {temperature}C°")
 
-        try:
-            self.__send_message_to_mqtt(humidity, temperature)
-
-        except ServiceError as error:
-            print(str(error))
+        return ServiceResponse(
+            topic=config.TOPIC_SENDING_HUM_AND_TEMP_SENSOR_DATA,
+            data={"humidity": humidity, "temperature": temperature},
+        )

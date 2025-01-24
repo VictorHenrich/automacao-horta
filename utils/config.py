@@ -32,7 +32,11 @@ TOPIC_RECEIVING_SOIL_SENSOR_DATA = "receiving_soil_sensor_data"
 
 TOPIC_SENDING_HUM_AND_TEMP_SENSOR_DATA = "sending_hum_and_temp_sensor_data"
 
-TOPIC_RECEIVING_HUM_AND_TEMP_SENSOR_DATA = "receiving_soil_sensor_data"
+TOPIC_RECEIVING_HUM_AND_TEMP_SENSOR_DATA = "receiving_hum_and_temp_sensor_data"
+
+TOPIC_SENDING_PHOTO_SENSOR_DATA = "sending_photo_sensor_data"
+
+TOPIC_RECEIVING_PHOTO_SENSOR_DATA = "receiving_photo_sensor_data"
 
 WIFI_NAME = ""
 
