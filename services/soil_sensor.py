@@ -12,7 +12,7 @@ class SoilSensorService(BaseService):
     ):
         self.__soil_pin = Pin(soil_sensor_port, Pin.IN)
 
-        self.__soil_sensor = ADC(self.__soil_pin)
+        self.__soil_sensor = ADC(self.__soil_pin, atten=ADC.ATTN_11DB)
 
         self.__water_pump_pin = Pin(water_pump_port, Pin.OUT)
 
