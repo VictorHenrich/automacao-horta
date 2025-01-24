@@ -35,7 +35,7 @@ class SoilSensorService(BaseService):
             raise ServiceError(self, "Falha ao ativar bomba dagua!", error)
 
     def __validate_soil_sensor_value(self, sensor_value):
-        return sensor_value <= config.MIN_VALUE_SOIL_SENSOR
+        return sensor_value >= config.MAX_VALUE_SOIL_SENSOR
 
     def execute(self):
         sensor_value = self.__capture_sensor_value()
