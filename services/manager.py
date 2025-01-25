@@ -76,8 +76,6 @@ class ServiceManager(BaseService):
 
                 message = "\n".join(self.__messages)
 
-                lcd_display_service.set_message(message)
-
-                lcd_display_service.execute()
+                lcd_display_service.set_message(message).execute()
 
                 self.__messages = []
