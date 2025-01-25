@@ -19,5 +19,4 @@ gerden_service_manager = ServiceManager(
 )
 
 
-while True:
-    gerden_service_manager.execute()
+gerden_service_manager.execute()
