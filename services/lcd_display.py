@@ -1,5 +1,5 @@
 from machine import Pin, I2C
-from i2c_lcd import I2cLcd
+from libs.lcd.i2c_lcd import I2cLcd
 from utils.exceptions import ServiceError
 from utils.patterns import BaseService
 from utils import config

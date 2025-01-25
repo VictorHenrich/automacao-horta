@@ -15,7 +15,7 @@ gerden_service_manager = ServiceManager(
     send_to_mqtt=True,
     execution_time=1,
     show_message_in_console=True,
-    show_message_in_display=True
+    show_message_in_display=True,
 )
 
 
