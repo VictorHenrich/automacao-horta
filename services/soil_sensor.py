@@ -7,14 +7,14 @@ from utils import config
 class SoilSensorService(BaseService):
     def __init__(
         self,
-        soil_sensor_port=config.SOIL_SENSOR_PORT,
-        water_pump_port=config.WATER_PUMP_PORT,
+        soil_sensor_analog_port=config.SOIL_SENSOR_PORT,
+        water_pump_digital_port=config.WATER_PUMP_PORT,
     ):
-        self.__soil_pin = Pin(soil_sensor_port, Pin.IN)
+        soil_pin = Pin(soil_sensor_analog_port, Pin.IN)
 
-        self.__soil_sensor = ADC(self.__soil_pin, atten=ADC.ATTN_11DB)
+        self.__soil_sensor = ADC(soil_pin, atten=ADC.ATTN_11DB)
 
-        self.__water_pump_pin = Pin(water_pump_port, Pin.OUT)
+        self.__water_pump_pin = Pin(water_pump_digital_port, Pin.OUT)
 
     def __capture_sensor_value(self):
         try:
@@ -40,14 +40,13 @@ class SoilSensorService(BaseService):
     def execute(self):
         sensor_value = self.__capture_sensor_value()
 
-        print(f"Valor do sensor de solo: {sensor_value}")
-
         water_pump_activated = self.__activate_water_pump(sensor_value)
 
         return ServiceResponse(
-            topic=config.TOPIC_SENDING_SOIL_SENSOR_DATA,
-            data={
+            mqtt_topic=config.TOPIC_SENDING_SOIL_SENSOR_DATA,
+            mqtt_data={
                 "sensor_value": sensor_value,
                 "water_pump_activated": water_pump_activated,
             },
+            display_message=f"Valor do sensor de solo: {sensor_value}",
         )

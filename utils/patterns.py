@@ -10,15 +10,21 @@ class BaseService:
 
 
 class ServiceResponse:
-    def __init__(self, topic, data):
-        self.__topic = topic
+    def __init__(self, mqtt_topic=None, mqtt_data=None, display_message=None):
+        self.__mqtt_topic = mqtt_topic
 
-        self.__data = data
+        self.__mqtt_data = mqtt_data
 
-    @property
-    def topic(self):
-        return self.__topic
+        self.__display_message = display_message
 
     @property
-    def data(self):
-        return self.__data
+    def mqtt_topic(self):
+        return self.__mqtt_topic
+
+    @property
+    def mqtt_data(self):
+        return self.__mqtt_data
+
+    @property
+    def display_message(self):
+        return self.__display_message
