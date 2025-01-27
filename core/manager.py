@@ -1,11 +1,11 @@
 import _thread as thread
 import time
-from services.lcd_display import LCDDisplayService
-from utils.patterns import BaseService
-from utils.exceptions import ServiceError
+from core.patterns import BaseService
+from core.exceptions import ServiceError
+from core import config
 from utils.mqtt import MQTTIntegration
-from utils import config
 from utils.net import Network
+from utils.lcd import LCDDisplay
 
 
 class ServiceManager(BaseService):
@@ -72,10 +72,11 @@ class ServiceManager(BaseService):
 
         while True:
             if self.__params["show_message_in_display"] is True:
-                lcd_display_service = LCDDisplayService()
+                with self.__lock:
+                    lcd_display = LCDDisplay()
 
-                message = "\n".join(self.__messages)
+                    message = "\n".join(self.__messages)
 
-                lcd_display_service.set_message(message).execute()
+                    lcd_display.print_message(message)
 
-                self.__messages = []
+                    self.__messages = []

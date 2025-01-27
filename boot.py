@@ -1,4 +1,4 @@
-from services.manager import ServiceManager
+from core.manager import ServiceManager
 from services.infrared_sensor import InfraredSensorService
 from services.water_sensor import WaterSensorService
 from services.soil_sensor import SoilSensorService

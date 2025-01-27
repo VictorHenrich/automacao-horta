@@ -1,7 +1,7 @@
 from machine import Pin, ADC
-from utils.patterns import BaseService, ServiceResponse
-from utils.exceptions import ServiceError
-from utils import config
+from core.patterns import BaseService, ServiceResponse
+from core.exceptions import ServiceError
+from core import config
 
 
 class InfraredSensorService(BaseService):

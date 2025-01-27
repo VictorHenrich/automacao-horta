@@ -1,8 +1,8 @@
 from machine import Pin
 from dht import DHT11
-from utils.patterns import BaseService, ServiceResponse
-from utils.exceptions import ServiceError
-from utils import config
+from core.patterns import BaseService, ServiceResponse
+from core.exceptions import ServiceError
+from core import config
 
 
 class HumidityAndTemperatureSensorService(BaseService):

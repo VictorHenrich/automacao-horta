@@ -1,7 +1,7 @@
 from umqtt.simple import MQTTClient
 import json
 import time
-from utils import config
+from core import config
 
 
 class MQTTIntegration(MQTTClient):
