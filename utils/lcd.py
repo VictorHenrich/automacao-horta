@@ -14,7 +14,23 @@ class LCDDisplay:
     ):
         i2c = I2C(0, sda=Pin(i2c_sda_port), scl=Pin(i2c_scl_port))
 
-        self.__lcd = I2cLcd(i2c, i2c_address, number_of_lines, number_of_columns)
+        component_address = self.__get_address(i2c, i2c_address)
+
+        self.__lcd = I2cLcd(i2c, component_address, number_of_lines, number_of_columns)
+
+    def __get_address(self, i2c, address_default):
+        i2c_address = address_default
+
+        if i2c_address is None:
+            try:
+                i2c_address = i2c.scan()[0]
+
+            except IndexError:
+                raise Exception(
+                    f"Não foi possível localizar nenhum endereço para o dispositivo LCD!"
+                )
+
+        return i2c_address
 
     def print_message(self, message):
         self.__lcd.clear()
