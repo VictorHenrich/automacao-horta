@@ -2,7 +2,6 @@ import _thread as thread
 import time
 from core.patterns import BaseService
 from core.exceptions import ServiceError
-from core import config
 from utils.mqtt import MQTTIntegration
 from utils.net import Network
 from utils.lcd import LCDDisplay
@@ -65,7 +64,7 @@ class ServiceManager(BaseService):
         self.__services.append(service)
 
     def execute(self):
-        Network.connect_to_wifi(config.WIFI_NAME, config.WIFI_PASSWORD)
+        Network.connect_to_wifi()
 
         for service in self.__services:
             thread.start_new_thread(self.__perform_service, (service,))

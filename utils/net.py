@@ -1,5 +1,6 @@
 import network
 import time
+from core import config
 
 
 class Network:
@@ -14,7 +15,13 @@ class Network:
             return cls.__WLAN_INSTANCE.isconnected()
 
     @classmethod
-    def connect_to_wifi(cls, network_name, network_password, wait=5, is_new=False):
+    def connect_to_wifi(
+        cls,
+        network_name=config.WIFI_NAME,
+        network_password=config.WIFI_PASSWORD,
+        wait=5,
+        is_new=False,
+    ):
         if cls.__WLAN_INSTANCE is None or is_new is False:
             wlan = network.WLAN(network.STA_IF)
 
