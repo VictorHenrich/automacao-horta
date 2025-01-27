@@ -22,7 +22,7 @@ class ServiceManager(BaseService):
 
         self.__params = {
             "send_to_mqtt": send_to_mqtt,
-            "execution_time": execution_time,
+            "execution_time": float(execution_time or 0),
             "show_message_in_console": show_message_in_console,
             "show_message_in_display": show_message_in_display,
         }
@@ -34,8 +34,6 @@ class ServiceManager(BaseService):
     def __perform_service(self, service):
         while True:
             response = service.execute()
-
-            exec_time = float(self.__params["execution_time"] or 0)
 
             if response:
                 if self.__params["send_to_mqtt"] is True:
@@ -51,7 +49,7 @@ class ServiceManager(BaseService):
                     with self.__lock:
                         self.__messages.append(response.display_message)
 
-            time.sleep(exec_time)
+            time.sleep(self.__params["execution_time"])
 
     def __send_message_to_mqtt(self, topic, data):
         try:
@@ -69,13 +67,14 @@ class ServiceManager(BaseService):
         for service in self.__services:
             thread.start_new_thread(self.__perform_service, (service,))
 
+        lcd_display = (
+            LCDDisplay() if self.__params["show_message_in_display"] is True else None
+        )
+
         while True:
-            if self.__params["show_message_in_display"] is True:
-                with self.__lock:
-                    lcd_display = LCDDisplay()
+            if lcd_display is not None and len(self.__messages) >= len(self.__services):
+                lcd_display.print_message(
+                    self.__messages, execution_time=self.__params["execution_time"]
+                )
 
-                    message = "\n".join(self.__messages)
-
-                    lcd_display.print_message(message)
-
-                    self.__messages = []
+                self.__messages = []

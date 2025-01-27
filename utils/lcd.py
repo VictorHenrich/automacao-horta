@@ -1,4 +1,5 @@
 from machine import Pin, I2C
+import time
 from libs.lcd.i2c_lcd import I2cLcd
 from core import config
 
@@ -32,12 +33,12 @@ class LCDDisplay:
 
         return i2c_address
 
-    def print_message(self, message):
+    def print_message(self, *messages, execution_time=1):
         self.__lcd.clear()
-
-        messages = (message or "").split("\n")
 
         for message_index in range(len(messages)):
             self.__lcd.move_to(0, message_index)
 
             self.__lcd.putstr(messages[message_index])
+
+            time.sleep(execution_time)
