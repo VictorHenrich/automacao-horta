@@ -31,6 +31,10 @@ class ServiceManager(BaseService):
 
         self.__messages = []
 
+    def __add_message_in_display(self, response):
+        with self.__lock:
+            self.__messages.append(response.display_message)
+
     def __perform_service(self, service):
         while True:
             response = service.execute()
@@ -46,8 +50,7 @@ class ServiceManager(BaseService):
                     self.__params["show_message_in_display"] is True
                     and response.display_message is not None
                 ):
-                    with self.__lock:
-                        self.__messages.append(response.display_message)
+                    thread.start_new_thread(self.__add_message_in_display, (response,))
 
             time.sleep(self.__params["execution_time"])
 
@@ -72,9 +75,10 @@ class ServiceManager(BaseService):
         )
 
         while True:
-            if lcd_display is not None and len(self.__messages) >= len(self.__services):
-                lcd_display.print_message(
-                    self.__messages, execution_time=self.__params["execution_time"]
-                )
+            if lcd_display and self.__messages:
+                with self.__lock:
+                    lcd_display.print_message(
+                        self.__messages, execution_time=self.__params["execution_time"]
+                    )
 
-                self.__messages = []
+                    self.__messages = []
