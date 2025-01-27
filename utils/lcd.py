@@ -17,7 +17,7 @@ class LCDDisplay:
         self.__lcd = I2cLcd(i2c, i2c_address, number_of_lines, number_of_columns)
 
     def print_message(self, message):
-        self.__lcd.clean()
+        self.__lcd.clear()
 
         messages = (message or "").split("\n")
 
