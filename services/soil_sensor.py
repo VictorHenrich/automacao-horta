@@ -35,11 +35,11 @@ class SoilSensorService(BaseService):
             raise ServiceError(self, "Falha ao ativar bomba dagua!", error)
 
     def __transform_value_into_water_percentage(self, sensor_value):
-        voltage = sensor_value / 4095 * 3.3
+        voltage = sensor_value / 4095
 
         water_percentage = voltage * 100
 
-        return f"{water_percentage}%"
+        return f"{water_percentage:.2f}%"
 
     def __validate_soil_sensor_value(self, sensor_value):
         return sensor_value >= config.MAX_VALUE_SOIL_SENSOR

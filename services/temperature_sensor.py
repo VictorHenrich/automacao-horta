@@ -8,7 +8,7 @@ class TemperatureSensorService(BaseService):
     def __init__(self, analog_port=config.TEMPERATURE_SENSOR_PORT):
         pin = Pin(analog_port, Pin.IN)
 
-        self.__sensor = ADC(pin)
+        self.__sensor = ADC(pin, atten=ADC.ATTN_11DB)
 
     def __capture_sensor_value(self):
         try:
@@ -18,11 +18,11 @@ class TemperatureSensorService(BaseService):
             raise ServiceError(self, "Falha ao realizar leitura do sensor!", error)
 
     def __transform_value_into_temperature(self, sensor_value):
-        voltage = sensor_value / 4095 * 3.3
+        voltage = (sensor_value / 4095) * 3.3
 
         temperature = voltage * 100
 
-        return f"{temperature}ºC"
+        return f"{temperature:.2f}ºC"
 
     def execute(self):
         sensor_value = self.__capture_sensor_value()
