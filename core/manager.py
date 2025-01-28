@@ -80,4 +80,6 @@ class ServiceManager(BaseService):
                     for message in self.__messages:
                         lcd_display.print_message(message)
 
+                        time.sleep(self.__params["execution_time"])
+
                     self.__messages = []
