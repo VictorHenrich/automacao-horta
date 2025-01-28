@@ -50,7 +50,7 @@ class ServiceManager(BaseService):
                     self.__params["show_message_in_display"] is True
                     and response.display_message is not None
                 ):
-                    thread.start_new_thread(self.__add_message_in_display, (response,))
+                    self.__add_message_in_display(response)
 
             time.sleep(self.__params["execution_time"])
 
