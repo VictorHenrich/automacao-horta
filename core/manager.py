@@ -77,8 +77,8 @@ class ServiceManager(BaseService):
         while True:
             if lcd_display and self.__messages:
                 with self.__lock:
-                    lcd_display.print_message(
-                        self.__messages, execution_time=self.__params["execution_time"]
+                    lcd_display.print_messages(
+                        *self.__messages, execution_time=self.__params["execution_time"]
                     )
 
                     self.__messages = []

@@ -4,7 +4,7 @@ from libs.lcd.i2c_lcd import I2cLcd
 from core import config
 
 
-class LCDDisplay:
+class LCDDisplay(I2cLcd):
     def __init__(
         self,
         i2c_sda_port=config.LCD_DISPLAY_SDA_PORT,
@@ -17,7 +17,13 @@ class LCDDisplay:
 
         component_address = self.__get_address(i2c, i2c_address)
 
-        self.__lcd = I2cLcd(i2c, component_address, number_of_lines, number_of_columns)
+        self.__number_of_columns = number_of_columns
+
+        self.__number_of_lines = number_of_lines
+
+        super().__init__(i2c, component_address, number_of_lines, number_of_columns)
+
+        self.backlight_on()
 
     def __get_address(self, i2c, address_default):
         i2c_address = address_default
@@ -33,12 +39,25 @@ class LCDDisplay:
 
         return i2c_address
 
-    def print_message(self, *messages, execution_time=1):
-        self.__lcd.clear()
+    def print_messages(self, *messages, execution_time=1):
+        for message in messages:
+            broken_message = message.split("\n")
 
-        for message_index in range(len(messages)):
-            self.__lcd.move_to(0, message_index)
+            self.clear()
 
-            self.__lcd.putstr(messages[message_index])
+            for message_index in range(len(broken_message), self.__number_of_lines):
+                self.move_to(0, message_index)
 
-            time.sleep(execution_time)
+                self.putstr(broken_message[message_index][: self.__number_of_columns])
+
+                time.sleep(execution_time)
+
+    def print_message(self, message):
+        self.clear()
+
+        broken_message = message.split("\n")
+
+        for message_index in range(len(broken_message)):
+            self.move_to(0, message_index)
+
+            self.putstr(broken_message[message_index][: self.__number_of_columns])
