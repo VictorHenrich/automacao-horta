@@ -17,11 +17,20 @@ class TemperatureSensorService(BaseService):
         except Exception as error:
             raise ServiceError(self, "Falha ao realizar leitura do sensor!", error)
 
+    def __transform_value_into_temperature(self, sensor_value):
+        voltage = sensor_value / 4095 * 3.3
+
+        temperature = voltage * 100
+
+        return f"{temperature}ºC"
+
     def execute(self):
         sensor_value = self.__capture_sensor_value()
 
+        temperature = self.__transform_value_into_temperature(sensor_value)
+
         return ServiceResponse(
             mqtt_topic=config.TOPIC_SENDING_INFRARED_SENSOR_DATA,
-            mqtt_data={"sensor_value": sensor_value},
-            display_message=f"Sensor Temp: {sensor_value}",
+            mqtt_data={"sensor_value": sensor_value, "temperature": temperature},
+            display_message=f"Temperatura: {temperature}",
         )

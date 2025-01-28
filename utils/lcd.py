@@ -1,5 +1,4 @@
 from machine import Pin, I2C
-import time
 from libs.lcd.i2c_lcd import I2cLcd
 from core import config
 
@@ -42,6 +41,12 @@ class LCDDisplay(I2cLcd):
     def print_message(self, message):
         self.clear()
 
-        self.move_to(0, 0)
+        text_parts = [
+            message[index : index + self.__number_of_columns]
+            for index in range(0, len(message), self.__number_of_columns)
+        ]
 
-        self.putstr(message[: self.__number_of_columns])
+        for text_row, text_part in enumerate(text_parts[: self.__number_of_lines]):
+            self.move_to(0, text_row)
+
+            self.putstr(text_part)

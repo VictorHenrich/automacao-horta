@@ -34,6 +34,13 @@ class SoilSensorService(BaseService):
         except Exception as error:
             raise ServiceError(self, "Falha ao ativar bomba dagua!", error)
 
+    def __transform_value_into_water_percentage(self, sensor_value):
+        voltage = sensor_value / 4095 * 3.3
+
+        water_percentage = voltage * 100
+
+        return f"{water_percentage}%"
+
     def __validate_soil_sensor_value(self, sensor_value):
         return sensor_value >= config.MAX_VALUE_SOIL_SENSOR
 
@@ -42,11 +49,14 @@ class SoilSensorService(BaseService):
 
         water_pump_activated = self.__activate_water_pump(sensor_value)
 
+        water_percentage = self.__transform_value_into_water_percentage(sensor_value)
+
         return ServiceResponse(
             mqtt_topic=config.TOPIC_SENDING_SOIL_SENSOR_DATA,
             mqtt_data={
                 "sensor_value": sensor_value,
                 "water_pump_activated": water_pump_activated,
+                "water_percentage": water_percentage,
             },
-            display_message=f"Sensor Solo: {sensor_value}",
+            display_message=f"Água no solo: {water_percentage}",
         )

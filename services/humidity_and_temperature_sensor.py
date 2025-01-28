@@ -19,7 +19,7 @@ class HumidityAndTemperatureSensorService(BaseService):
 
             humidity = self.__sensor.humidity()
 
-            return humidity, temperature
+            return f"{humidity}%", f"{temperature}C°"
 
         except Exception as error:
             raise ServiceError(
@@ -32,5 +32,5 @@ class HumidityAndTemperatureSensorService(BaseService):
         return ServiceResponse(
             mqtt_topic=config.TOPIC_SENDING_HUM_AND_TEMP_SENSOR_DATA,
             mqtt_data={"humidity": humidity, "temperature": temperature},
-            display_message=f"Hum.: {humidity}%\nTemp: {temperature}C°",
+            display_message=f"Hum.: {humidity} | Temp.: {temperature}",
         )
