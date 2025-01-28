@@ -75,7 +75,7 @@ class ServiceManager(BaseService):
         )
 
         while True:
-            if lcd_display and self.__messages:
+            if lcd_display and len(self.__messages) >= len(self.__services):
                 with self.__lock:
                     for message in self.__messages:
                         lcd_display.print_message(message)

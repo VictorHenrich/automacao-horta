@@ -26,7 +26,7 @@ class PhotoresistorSensorService(BaseService):
     def __transform_value_into_light_percentage(self, sensor_value):
         voltage = sensor_value / 4095
 
-        light_percentage = voltage * 100
+        light_percentage = 100 - (voltage * 100)
 
         return f"{light_percentage:.2f}%"
 

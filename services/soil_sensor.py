@@ -37,7 +37,7 @@ class SoilSensorService(BaseService):
     def __transform_value_into_water_percentage(self, sensor_value):
         voltage = sensor_value / 4095
 
-        water_percentage = voltage * 100
+        water_percentage = 100 - (voltage * 100)
 
         return f"{water_percentage:.2f}%"
 
@@ -58,5 +58,5 @@ class SoilSensorService(BaseService):
                 "water_pump_activated": water_pump_activated,
                 "water_percentage": water_percentage,
             },
-            display_message=f"Água no solo: {water_percentage}",
+            display_message=f"Agua no solo: {water_percentage}",
         )
