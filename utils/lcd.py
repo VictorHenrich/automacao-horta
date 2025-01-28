@@ -39,25 +39,9 @@ class LCDDisplay(I2cLcd):
 
         return i2c_address
 
-    def print_messages(self, *messages, execution_time=1):
-        for message in messages:
-            broken_message = message.split("\n")
-
-            self.clear()
-
-            for message_index in range(len(broken_message), self.__number_of_lines):
-                self.move_to(0, message_index)
-
-                self.putstr(broken_message[message_index][: self.__number_of_columns])
-
-                time.sleep(execution_time)
-
     def print_message(self, message):
         self.clear()
 
-        broken_message = message.split("\n")
+        self.move_to(0, 0)
 
-        for message_index in range(len(broken_message)):
-            self.move_to(0, message_index)
-
-            self.putstr(broken_message[message_index][: self.__number_of_columns])
+        self.putstr(message[: self.__number_of_columns])

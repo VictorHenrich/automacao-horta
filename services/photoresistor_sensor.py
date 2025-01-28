@@ -23,5 +23,5 @@ class PhotoresistorSensorService(BaseService):
         return ServiceResponse(
             mqtt_topic=config.TOPIC_RECEIVING_INFRARED_SENSOR_DATA,
             mqtt_data={"sensor_value": sensor_value},
-            display_message=f"Valor sensor Photoresistor: {sensor_value}",
+            display_message=f"Sensor Luz: {sensor_value}",
         )

@@ -32,5 +32,5 @@ class HumidityAndTemperatureSensorService(BaseService):
         return ServiceResponse(
             mqtt_topic=config.TOPIC_SENDING_HUM_AND_TEMP_SENSOR_DATA,
             mqtt_data={"humidity": humidity, "temperature": temperature},
-            display_message=f"Humidade: {humidity}%\nTemperatura: {temperature}C°",
+            display_message=f"Hum.: {humidity}%\nTemp: {temperature}C°",
         )

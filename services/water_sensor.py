@@ -23,5 +23,5 @@ class WaterSensorService(BaseService):
         return ServiceResponse(
             mqtt_topic=config.TOPIC_SENDING_WATER_SENSOR_DATA,
             mqtt_data={"sensor_value": sensor_value},
-            display_message=f"Valor sensor da agua: {sensor_value}",
+            display_message=f"Sensor Agua: {sensor_value}",
         )

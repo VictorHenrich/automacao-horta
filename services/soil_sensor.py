@@ -48,5 +48,5 @@ class SoilSensorService(BaseService):
                 "sensor_value": sensor_value,
                 "water_pump_activated": water_pump_activated,
             },
-            display_message=f"Valor do sensor de solo: {sensor_value}",
+            display_message=f"Sensor Solo: {sensor_value}",
         )
