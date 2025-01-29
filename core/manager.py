@@ -12,9 +12,10 @@ class ServiceManager(BaseService):
         self,
         *services,
         send_to_mqtt=True,
-        execution_time=None,
         show_message_in_console=True,
         show_message_in_display=True,
+        service_execution_time=None,
+        display_execution_time=None,
     ):
         self.__services = list(services)
 
@@ -22,7 +23,8 @@ class ServiceManager(BaseService):
 
         self.__params = {
             "send_to_mqtt": send_to_mqtt,
-            "execution_time": float(execution_time or 0),
+            "service_execution_time": float(service_execution_time or 0),
+            "display_execution_time": float(display_execution_time or 1),
             "show_message_in_console": show_message_in_console,
             "show_message_in_display": show_message_in_display,
         }
@@ -52,7 +54,7 @@ class ServiceManager(BaseService):
                 ):
                     self.__add_message_in_display(response)
 
-            time.sleep(self.__params["execution_time"])
+            time.sleep(self.__params["service_execution_time"])
 
     def __send_message_to_mqtt(self, topic, data):
         try:
@@ -78,10 +80,8 @@ class ServiceManager(BaseService):
             if lcd_display and len(self.__messages) >= len(self.__services):
                 with self.__lock:
                     for message in self.__messages:
-                        execution_time = self.__params["execution_time"] or 1
-
                         lcd_display.print_message(message)
 
-                        time.sleep(execution_time)
+                        time.sleep(self.__params["display_execution_time"])
 
                     self.__messages = []

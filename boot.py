@@ -15,7 +15,8 @@ gerden_service_manager = ServiceManager(
     PhotoresistorSensorService(),
     TemperatureSensorService(),
     send_to_mqtt=True,
-    execution_time=1,
+    display_execution_time=None,
+    service_execution_time=None,
     show_message_in_console=True,
     show_message_in_display=True,
 )
