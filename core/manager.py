@@ -41,6 +41,8 @@ class ServiceManager(BaseService):
         while True:
             response = service.execute()
 
+            service_execution_time = self.__params["service_execution_time"]
+
             if response:
                 if self.__params["send_to_mqtt"] is True:
                     self.__send_message_to_mqtt(response.mqtt_topic, response.mqtt_data)
@@ -54,7 +56,8 @@ class ServiceManager(BaseService):
                 ):
                     self.__add_message_in_display(response)
 
-            time.sleep(self.__params["service_execution_time"])
+            if service_execution_time:
+                time.sleep(service_execution_time)
 
     def __send_message_to_mqtt(self, topic, data):
         try:
