@@ -78,8 +78,10 @@ class ServiceManager(BaseService):
             if lcd_display and len(self.__messages) >= len(self.__services):
                 with self.__lock:
                     for message in self.__messages:
+                        execution_time = self.__params["execution_time"] or 1
+
                         lcd_display.print_message(message)
 
-                        time.sleep(self.__params["execution_time"])
+                        time.sleep(execution_time)
 
                     self.__messages = []
