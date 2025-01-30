@@ -1,12 +1,12 @@
 from core.patterns import BaseService, ServiceResponse
 from core.exceptions import ServiceError
 from core import config
-from utils.pins import AnalogPin, PinTypes
+from utils.pins import AnalogPin, PinTypes, AttenuityTypes
 
 
 class InfraredSensorService(BaseService):
     def __init__(self, analog_port=config.INFRARED_SENSOR_PORT):
-        self.__sensor = AnalogPin(analog_port, PinTypes.IN)
+        self.__sensor = AnalogPin(analog_port, PinTypes.IN, AttenuityTypes.ATTN_11DB)
 
     def __capture_sensor_value(self):
         try:

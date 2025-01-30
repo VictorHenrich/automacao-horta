@@ -1,7 +1,7 @@
 from core.patterns import BaseService, ServiceResponse
 from core.exceptions import ServiceError
 from core import config
-from utils.pins import AnalogPin, DigitalPin, PinTypes
+from utils.pins import AnalogPin, DigitalPin, PinTypes, AttenuityTypes
 
 
 class SoilSensorService(BaseService):
@@ -11,7 +11,9 @@ class SoilSensorService(BaseService):
         water_pump_digital_port=config.WATER_PUMP_PORT,
     ):
 
-        self.__soil_sensor = AnalogPin(soil_sensor_analog_port, PinTypes.IN)
+        self.__soil_sensor = AnalogPin(
+            soil_sensor_analog_port, PinTypes.IN, AttenuityTypes.ATTN_11DB
+        )
 
         self.__water_pump_pin = DigitalPin(water_pump_digital_port, PinTypes.OUT)
 

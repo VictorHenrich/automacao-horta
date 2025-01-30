@@ -1,7 +1,7 @@
 from core.patterns import BaseService, ServiceResponse
 from core.exceptions import ServiceError
 from core import config
-from utils.pins import AnalogPin, DigitalPin, PinTypes
+from utils.pins import AnalogPin, DigitalPin, PinTypes, AttenuityTypes
 
 
 class PhotoresistorSensorService(BaseService):
@@ -10,7 +10,7 @@ class PhotoresistorSensorService(BaseService):
         analog_port=config.PHOTORESISTOR_SENSOR_PORT,
         light_led_digital_port=config.LIGHT_LED_PORT,
     ):
-        self.__sensor = AnalogPin(analog_port, PinTypes.IN)
+        self.__sensor = AnalogPin(analog_port, PinTypes.IN, AttenuityTypes.ATTN_11DB)
 
         self.__led = DigitalPin(light_led_digital_port, PinTypes.OUT)
 
