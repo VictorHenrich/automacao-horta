@@ -1,23 +1,22 @@
-from dht import DHT11
 from core.patterns import BaseService, ServiceResponse
 from core.exceptions import ServiceError
 from core import config
-from utils.pins import DigitalPin, PinTypes
+from utils.dht import DHTSensor, DHTTypes
 
 
 class HumidityAndTemperatureSensorService(BaseService):
-    def __init__(self, port=config.HUM_AND_TEMP_SENSOR_PORT, sensor_class=DHT11):
-        pin = DigitalPin(port, PinTypes.IN)
-
-        self.__sensor = sensor_class(pin)
+    def __init__(
+        self, port=config.HUM_AND_TEMP_SENSOR_PORT, sensor_type=DHTTypes.DHT11
+    ):
+        self.__sensor = DHTSensor(port, sensor_type)
 
     def __get_humidity_and_temperature(self):
         try:
-            self.__sensor.measure()
+            sensor_data = self.__sensor.measure()
 
-            temperature = self.__sensor.temperature()
+            temperature = sensor_data["temperature"]
 
-            humidity = self.__sensor.humidity()
+            humidity = sensor_data["humidity"]
 
             return f"{humidity}%", f"{temperature}C°"
 
