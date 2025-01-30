@@ -57,5 +57,5 @@ class SoilSensorService(BaseService):
                 "water_pump_activated": water_pump_activated,
                 "water_percentage": water_percentage,
             },
-            display_message=f"Agua no solo: {water_percentage}",
+            display_message=f"Agua solo: {water_percentage}\nValor: {sensor_value}",
         )

@@ -30,5 +30,5 @@ class TemperatureSensorService(BaseService):
         return ServiceResponse(
             mqtt_topic=config.TOPIC_SENDING_INFRARED_SENSOR_DATA,
             mqtt_data={"sensor_value": sensor_value, "temperature": temperature},
-            display_message=f"Temp: {temperature}\nValor: {sensor_value}",
+            display_message=f"Temp.: {temperature}\nValor: {sensor_value}",
         )

@@ -49,5 +49,5 @@ class PhotoresistorSensorService(BaseService):
                 "light_percentage": light_percentage,
                 "light_on": light_on,
             },
-            display_message=f"Luz: {light_percentage} | Led: {'LIGADO' if light_on else 'DESLIGADO'}",
+            display_message=f"Luz: {light_percentage}\nLed: {'LIGADO' if light_on else 'DESLIGADO'}",
         )
