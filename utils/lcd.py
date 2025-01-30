@@ -41,10 +41,20 @@ class LCDDisplay(I2cLcd):
     def print_message(self, message):
         self.clear()
 
-        text_parts = [
-            message[index : index + self.__number_of_columns]
-            for index in range(0, len(message), self.__number_of_columns)
-        ]
+        text_parts = []
+
+        if "\n" in message:
+            broken_message = message.split("\n")
+
+            text_parts = [
+                text_part[: self.__number_of_columns] for text_part in broken_message
+            ]
+
+        else:
+            text_parts = [
+                message[index : index + self.__number_of_columns]
+                for index in range(0, len(message), self.__number_of_columns)
+            ]
 
         for text_row, text_part in enumerate(text_parts[: self.__number_of_lines]):
             self.move_to(0, text_row)

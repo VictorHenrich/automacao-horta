@@ -1,7 +1,7 @@
-from machine import ADC, Pin
 from core.patterns import BaseService, ServiceResponse
 from core.exceptions import ServiceError
 from core import config
+from utils.pins import AnalogPin, DigitalPin, PinTypes
 
 
 class SoilSensorService(BaseService):
@@ -10,11 +10,10 @@ class SoilSensorService(BaseService):
         soil_sensor_analog_port=config.SOIL_SENSOR_PORT,
         water_pump_digital_port=config.WATER_PUMP_PORT,
     ):
-        soil_pin = Pin(soil_sensor_analog_port, Pin.IN)
 
-        self.__soil_sensor = ADC(soil_pin, atten=ADC.ATTN_11DB)
+        self.__soil_sensor = AnalogPin(soil_sensor_analog_port, PinTypes.IN)
 
-        self.__water_pump_pin = Pin(water_pump_digital_port, Pin.OUT)
+        self.__water_pump_pin = DigitalPin(water_pump_digital_port, PinTypes.OUT)
 
     def __capture_sensor_value(self):
         try:

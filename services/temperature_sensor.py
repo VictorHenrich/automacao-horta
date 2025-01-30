@@ -1,14 +1,12 @@
-from machine import Pin, ADC
 from core.patterns import BaseService, ServiceResponse
 from core.exceptions import ServiceError
 from core import config
+from utils.pins import AnalogPin, PinTypes
 
 
 class TemperatureSensorService(BaseService):
     def __init__(self, analog_port=config.TEMPERATURE_SENSOR_PORT):
-        pin = Pin(analog_port, Pin.IN)
-
-        self.__sensor = ADC(pin, atten=ADC.ATTN_11DB)
+        self.__sensor = AnalogPin(analog_port, PinTypes.IN)
 
     def __capture_sensor_value(self):
         try:
@@ -32,5 +30,5 @@ class TemperatureSensorService(BaseService):
         return ServiceResponse(
             mqtt_topic=config.TOPIC_SENDING_INFRARED_SENSOR_DATA,
             mqtt_data={"sensor_value": sensor_value, "temperature": temperature},
-            display_message=f"Temperatura: {temperature}",
+            display_message=f"Temp: {temperature}\nValor: {sensor_value}",
         )

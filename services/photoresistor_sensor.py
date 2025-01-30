@@ -1,7 +1,7 @@
-from machine import Pin, ADC
 from core.patterns import BaseService, ServiceResponse
 from core.exceptions import ServiceError
 from core import config
+from utils.pins import AnalogPin, DigitalPin, PinTypes
 
 
 class PhotoresistorSensorService(BaseService):
@@ -10,11 +10,9 @@ class PhotoresistorSensorService(BaseService):
         analog_port=config.PHOTORESISTOR_SENSOR_PORT,
         light_led_digital_port=config.LIGHT_LED_PORT,
     ):
-        pin = Pin(analog_port, Pin.IN)
+        self.__sensor = AnalogPin(analog_port, PinTypes.IN)
 
-        self.__sensor = ADC(pin, atten=ADC.ATTN_11DB)
-
-        self.__led = Pin(light_led_digital_port, Pin.OUT)
+        self.__led = DigitalPin(light_led_digital_port, PinTypes.OUT)
 
     def __turn_on_or_off_led(self, sensor_value):
         turn_on_light = sensor_value >= config.MAX_VALUE_PHOTO_SENSOR
