@@ -12,6 +12,7 @@ class ServiceManager(BaseService):
         self,
         *services,
         send_to_mqtt=True,
+        connect_to_wifi=True,
         show_message_in_console=True,
         show_message_in_display=True,
         service_execution_time=None,
@@ -22,11 +23,12 @@ class ServiceManager(BaseService):
         self.__mqtt_client = MQTTIntegration()
 
         self.__params = {
-            "send_to_mqtt": send_to_mqtt,
             "service_execution_time": float(service_execution_time or 0),
             "display_execution_time": float(display_execution_time or 1),
-            "show_message_in_console": show_message_in_console,
-            "show_message_in_display": show_message_in_display,
+            "send_to_mqtt": bool(send_to_mqtt),
+            "show_message_in_console": bool(show_message_in_console),
+            "show_message_in_display": bool(show_message_in_display),
+            "connect_to_wifi": bool(connect_to_wifi),
         }
 
         self.__lock = thread.allocate_lock()
@@ -70,7 +72,8 @@ class ServiceManager(BaseService):
         self.__services.append(service)
 
     def execute(self):
-        Network.connect_to_wifi()
+        if self.__params["connect_to_wifi"] is True:
+            Network.connect_to_wifi()
 
         for service in self.__services:
             thread.start_new_thread(self.__perform_service, (service,))
