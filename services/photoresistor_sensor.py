@@ -19,7 +19,7 @@ class PhotoresistorSensorService(BaseService):
     def __turn_on_or_off_led(self, sensor_value):
         turn_on_light = sensor_value >= config.MAX_VALUE_PHOTO_SENSOR
 
-        self.__led.value(turn_on_light)
+        self.__led.value(1 if turn_on_light else 0)
 
         return turn_on_light
 
