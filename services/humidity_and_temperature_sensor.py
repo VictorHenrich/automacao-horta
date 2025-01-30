@@ -1,13 +1,13 @@
-from machine import Pin
 from dht import DHT11
 from core.patterns import BaseService, ServiceResponse
 from core.exceptions import ServiceError
 from core import config
+from utils.pins import DigitalPin, PinTypes
 
 
 class HumidityAndTemperatureSensorService(BaseService):
-    def __init__(self, analog_port=config.HUM_AND_TEMP_SENSOR_PORT, sensor_class=DHT11):
-        pin = Pin(analog_port, Pin.IN)
+    def __init__(self, port=config.HUM_AND_TEMP_SENSOR_PORT, sensor_class=DHT11):
+        pin = DigitalPin(port, PinTypes.IN)
 
         self.__sensor = sensor_class(pin)
 
