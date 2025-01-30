@@ -10,12 +10,12 @@ class PinTypes:
 
 
 class DigitalPin(Pin):
-    def __init__(self, port, type=PinTypes.IN, *args, **kwargs):
-        super().__init__(port, type, *args, **kwargs)
+    def __init__(self, port, type=PinTypes.IN, *args):
+        super().__init__(port, type, *args)
 
 
 class AnalogPin(ADC):
-    def __init__(self, port, type=PinTypes.IN, *args, **kwargs):
+    def __init__(self, port, type=PinTypes.IN, **kwargs):
         pin = Pin(port, type)
 
-        super().__init__(pin, atten=ADC.ATTN_11DB, *args, **kwargs)
+        super().__init__(pin, atten=ADC.ATTN_11DB, **kwargs)
