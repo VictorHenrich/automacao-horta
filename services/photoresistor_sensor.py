@@ -12,7 +12,7 @@ class PhotoresistorSensorService(BaseService):
     ):
         pin = Pin(analog_port, Pin.IN)
 
-        self.__sensor = ADC(pin)
+        self.__sensor = ADC(pin, atten=ADC.ATTN_11DB)
 
         self.__led = Pin(light_led_digital_port, Pin.OUT)
 

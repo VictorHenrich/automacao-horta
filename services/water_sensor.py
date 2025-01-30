@@ -6,9 +6,9 @@ from core import config
 
 class WaterSensorService(BaseService):
     def __init__(self, analog_port=config.WATER_SENSOR_PORT):
-        self.__pin = Pin(analog_port, Pin.IN)
+        pin = Pin(analog_port, Pin.IN)
 
-        self.__sensor = ADC(self.__pin)
+        self.__sensor = ADC(pin, atten=ADC.ATTN_11DB)
 
     def __capture_sensor_value(self):
         try:

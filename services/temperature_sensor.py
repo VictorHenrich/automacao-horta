@@ -20,7 +20,7 @@ class TemperatureSensorService(BaseService):
     def __transform_value_into_temperature(self, sensor_value):
         voltage = (sensor_value / 4095) * 3.3
 
-        temperature = voltage * 100
+        temperature = (voltage - 0.5) * 100
 
         return f"{temperature:.2f}ºC"
 

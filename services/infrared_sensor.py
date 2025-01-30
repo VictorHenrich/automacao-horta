@@ -8,7 +8,7 @@ class InfraredSensorService(BaseService):
     def __init__(self, analog_port=config.INFRARED_SENSOR_PORT):
         pin = Pin(analog_port, Pin.IN)
 
-        self.__sensor = ADC(pin)
+        self.__sensor = ADC(pin, atten=ADC.ATTN_11DB)
 
     def __capture_sensor_value(self):
         try:
