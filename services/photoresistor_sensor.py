@@ -14,10 +14,10 @@ class LightLevels(dict):
     @classmethod
     def get_level(cls, sensor_value):
         if sensor_value >= config.MAX_VALUE_PHOTO_SENSOR:
-            return cls.ABOVE
+            return cls.BELOW
 
         elif sensor_value <= config.MIN_VALUE_PHOTO_SENSOR:
-            return cls.BELOW
+            return cls.ABOVE
 
         else:
             return cls.DEFAULT
