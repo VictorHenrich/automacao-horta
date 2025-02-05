@@ -1,5 +1,6 @@
 import _thread as thread
 import time
+import collections
 from core.patterns import BaseService
 from core.exceptions import ServiceError
 from utils.mqtt import MQTTIntegration
@@ -33,7 +34,7 @@ class ServiceManager(BaseService):
 
         self.__lock = thread.allocate_lock()
 
-        self.__messages = []
+        self.__messages = collections.deque()
 
     def __add_message_in_display(self, response):
         with self.__lock:
@@ -85,9 +86,9 @@ class ServiceManager(BaseService):
         while True:
             if lcd_display and len(self.__messages) >= len(self.__services):
                 with self.__lock:
-                    for message in self.__messages:
+                    while len(self.__messages) > 0:
+                        message = self.__messages.pop()
+
                         lcd_display.print_message(message)
 
                         time.sleep(self.__params["display_execution_time"])
-
-                    self.__messages = []
